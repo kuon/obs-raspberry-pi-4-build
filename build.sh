@@ -262,7 +262,6 @@ get_and_build_libaom() {
         && mkdir "${TMPDIR}/aom/aom_build" \
         && cd "${TMPDIR}/aom/aom_build" \
         && cmake -G "Unix Makefiles" AOM_SRC -DENABLE_NASM=on -DPYTHON_EXECUTABLE="$(which python3)" .. \
-        && sed -i 's/ENABLE_NEON:BOOL=ON/ENABLE_NEON:BOOL=OFF/' CMakeCache.txt \
         && make -j$(nproc) \
         && sudo make install
 }
