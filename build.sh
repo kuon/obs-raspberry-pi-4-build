@@ -10,8 +10,8 @@ PURPLE=$(tput setaf 5)
 CYAN=$(tput setaf 6)
 DEFAULT=$(tput sgr0)
 
-FFMPEG_TAG=n4.4.1
-OBS_TAG=27.1.3
+FFMPEG_TAG=n4.4.2
+OBS_TAG=27.2.4
 
 cleanup() {
     rm -rf "${TMPDIR}"
@@ -22,7 +22,7 @@ trap cleanup EXIT
 # Save current working directory
 cwd=$(pwd)
 
-version="0.0.3"
+version="0.0.4"
 dependencies=(
     "autoconf"
     "automake"
@@ -381,7 +381,8 @@ get_and_build_obs() {
     git clone https://github.com/obsproject/obs-studio.git "${TMPDIR}/OBS" && cd "${TMPDIR}/OBS" \
         && git checkout tags/${OBS_TAG} \
         && mkdir build32 && cd build32 \
-        && cmake -DBUILD_BROWSER=OFF -DBUILD_VST=OFF -DUNIX_STRUCTURE=1 -DCMAKE_INSTALL_PREFIX=/usr .. \
+        && cmake -DBUILD_BROWSER=OFF -DBUILD_PIPEWIRE=OFF -DBUILD_VST=OFF \
+        -DUNIX_STRUCTURE=1 -DCMAKE_INSTALL_PREFIX=/usr .. \
         && make -j4 \
         && sudo make install \
         && sudo ldconfig
@@ -392,7 +393,7 @@ main() {
     print_info
     check_os_version
     install_dependencies
-    get_and_build_pipewire
+    #get_and_build_pipewire
     get_and_build_libfdk_aac
     get_and_build_libdav1d
     get_and_build_libkvazaar
