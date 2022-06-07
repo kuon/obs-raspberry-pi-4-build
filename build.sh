@@ -261,7 +261,7 @@ get_and_build_libaom() {
     git clone --depth 1 --branch v3.0.0 https://aomedia.googlesource.com/aom "${TMPDIR}/aom" \
         && mkdir "${TMPDIR}/aom/aom_build" \
         && cd "${TMPDIR}/aom/aom_build" \
-        && cmake -G "Unix Makefiles" AOM_SRC -DENABLE_NASM=on -DPYTHON_EXECUTABLE="$(which python3)" -DCMAKE_C_FLAGS="-mfpu=vfp -mfloat-abi=hard" .. \
+        && cmake -G "Unix Makefiles" AOM_SRC -DENABLE_NASM=on -DPYTHON_EXECUTABLE="$(which python3)" .. \
         && sed -i 's/ENABLE_NEON:BOOL=ON/ENABLE_NEON:BOOL=OFF/' CMakeCache.txt \
         && make -j$(nproc) \
         && sudo make install
@@ -333,7 +333,7 @@ get_and_build_ffmpeg() {
         && ./configure \
                --extra-cflags='-I/usr/local/include -march=armv8-a+crc+simd -mfloat-abi=hard -mfpu=neon-fp-armv8 -mtune=cortex-a72' \
                --extra-libs='-lpthread -lm -latomic' \
-               --arch=armv7l \
+               --arch=arm64 \
                --enable-shared \
                --enable-libv4l2 \
                --enable-libaom \
@@ -359,10 +359,7 @@ get_and_build_ffmpeg() {
                --enable-libx264 \
                --enable-libx265 \
                --enable-libxml2 \
-               --enable-mmal \
                --enable-nonfree \
-               --enable-omx \
-               --enable-omx-rpi \
                --enable-version3 \
                --target-os=linux \
                --enable-pthreads \
